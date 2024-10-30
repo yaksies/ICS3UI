@@ -24,7 +24,7 @@ print(f"Today's low is {lowForToday}! ")
 
 #CHALLENGE E
 
-
+'''
 q1 = "What is Samyak's favourite video game? " 
 q2 = "What is Samyak's favourite food? "
 q3 = "What is the first name of the first african american president of the USA? "
@@ -71,5 +71,28 @@ for i in range(len(questions)):
 print("")
 
 print(f"You got {scoreSoFar} questions correct.")
+'''
+
+#CHALLENGE F
 
 
+raceTimes = [453, 450, 420, 492, 509, 444, 460, 530, 499]
+
+places = ["", " second", " third", " fourth", " fifth", " sixth", " seventh", " eighth", " ninth"]
+
+#fastestTime = raceTimes[0]
+
+for i in range(len(raceTimes)):
+
+    fastestTime = raceTimes[0]
+    
+    for j in range(len(raceTimes)):
+
+        if fastestTime > raceTimes[j]:
+            fastestTime = raceTimes[j]
+
+    print(f"The{places[i]} fastest time is {fastestTime}. ")
+
+    print()
+
+    raceTimes.remove(fastestTime)
