@@ -29,8 +29,8 @@ for i in range(10):
 xBuilding = -10
 yBuilding = 580
 
-xBuildingSize = 80
-yBuildingSize = 300
+xBuildingSize = 100
+yBuildingSize = 450
 for i in range(10):
     screen.create_rectangle(
         xBuilding,
@@ -40,9 +40,11 @@ for i in range(10):
         fill="darkgrey",
     )
 
-    xBuilding += randint(70, 130)
-    xBuildingSize += randint(-20, 35)
-    yBuildingSize += randint(-20, 20)
+    xBuilding += 110
+
+    # xBuilding += randint(70, 130)
+    # xBuildingSize += randint(-20, 35)
+    # yBuildingSize += randint(-20, 20)
 
 
 screen.mainloop()
