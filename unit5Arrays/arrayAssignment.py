@@ -14,7 +14,7 @@ for i in range(300):
     screen.create_oval(x - 2, y - 2, x + 2, y + 2, fill="white")
 
 # Randomly generating buildings
-
+"""
 for i in range(10):
     bSizeX = randint(100, 150)
     bSizeY = randint(200, 250)
@@ -23,5 +23,26 @@ for i in range(10):
     y = 580
 
     screen.create_rectangle(x, y, x + bSizeX, y - bSizeY, fill="darkgray")
+"""
+
+# Generating buldings using a for loop
+xBuilding = -10
+yBuilding = 580
+
+xBuildingSize = 80
+yBuildingSize = 300
+for i in range(10):
+    screen.create_rectangle(
+        xBuilding,
+        yBuilding,
+        xBuilding + xBuildingSize,
+        yBuilding - yBuildingSize,
+        fill="darkgrey",
+    )
+
+    xBuilding += randint(70, 130)
+    xBuildingSize += randint(-20, 35)
+    yBuildingSize += randint(-20, 20)
+
 
 screen.mainloop()
