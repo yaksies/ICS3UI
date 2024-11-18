@@ -5,7 +5,7 @@ screen = Canvas(Tk(), height=600, width=900, background="darkslategray")
 screen.pack()
 
 # Creating the ground
-screen.create_rectangle(0, 580, 900, 600, fill="black")
+screen.create_rectangle(0, 500, 900, 600, fill="black")
 
 # Making the stars in the background
 for i in range(300):
@@ -27,7 +27,7 @@ for i in range(10):
 
 # Generating buldings using a for loop
 xBuilding = -10
-yBuilding = 580
+yBuilding = 500
 
 xBuildingSize = 100
 yBuildingSize = 450
@@ -41,6 +41,7 @@ for i in range(10):
     )
 
     xBuilding += 110
+    yBuildingSize += randint(-40, 20)
 
     # xBuilding += randint(70, 130)
     # xBuildingSize += randint(-20, 35)
