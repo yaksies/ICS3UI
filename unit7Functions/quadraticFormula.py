@@ -2,7 +2,7 @@ from math import sqrt
 
 
 def solveQuadraticEquation(a, b, c):
-    discriminant = b**2 - 4 * a * c
+    discriminant = (b**2) - (4 * a * c)
 
     if discriminant < 0:
         return []
@@ -12,8 +12,8 @@ def solveQuadraticEquation(a, b, c):
         return [round(root, 1)]
 
     else:
-        root1 = -1 * b + sqrt(discriminant) / (2 * a)
-        root2 = -1 * b - sqrt(discriminant) / (2 * a)
+        root1 = (-b + sqrt(discriminant)) / (2 * a)
+        root2 = (-b - sqrt(discriminant)) / (2 * a)
 
         return [round(root1, 1), round(root2, 1)]
 
