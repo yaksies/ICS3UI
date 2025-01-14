@@ -9,17 +9,18 @@ screen = Canvas(root, width=800, height=600, background="black")
 #THE JOB OF THIS PROCEDURE IS TO CREATE ALL THE VARIABLES THE GAME WILL NEED
 #AND GIVE THEM STARTING VALUES
 def setInitialValues():
-	#List global variables
-	global xRocket, yRocket
+    #List global variables
+    global xPLatform, yPLatform, platformSpeed
+    global score, timeLeft
+    global xBallSpeed, yBallSpeed, xBall, yBall
 	
-	#Give the global variables starting values
-	xRocket = 400
-	yRocket = 350
+    #Give the global variables starting values
+	
 
 
 
 def drawObjects():
-	global rockethead, rocketbody
+    global rockethead, rocketbody
 	
 
 def drawStats():
@@ -57,22 +58,22 @@ def updateObjectPositions():
 #THIS IS THE MAIN PROCEDURE THAT RUNS THE GAME. IT GETS CALLED ONCE WHEN THE PROGRAM STARTS  
 def runGame():
 
-	#Creates all the variables the program will need, and gives them starting values
-	setInitialValues()
+    #Creates all the variables the program will need, and gives them starting values
+    setInitialValues()
 
-	#Keeps the game running for as long as the character is still alive
-	while True: #or some other condition 
-		drawObjects()
-		drawStats()
-		updateObjects() 
-		
-		screen.update()
-		sleep(0.03)
-		screen.delete( "all" ) #Or only the characters
+    #Keeps the game running for as long as the character is still alive
+    while True: #or some other condition 
+        drawObjects()
+        drawStats()
+        updateObjects() 
+        
+        screen.update()
+        sleep(0.03)
+        screen.delete( "all" ) #Or only the characters
 
-	#WHEN THE WHILE-LOOP ABOVE STOPS, THE GAME ENDS
-	gameOverMessage()
-	askToRestart()
+    #WHEN THE WHILE-LOOP ABOVE STOPS, THE GAME ENDS
+    gameOverMessage()
+    askToRestart()
 
 
 #THESE 5 COMMANDS WILL BE NEW TO YOU. ALL GAMES MUST INCLUDE THEM.
