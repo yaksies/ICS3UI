@@ -12,18 +12,26 @@ def setInitialValues():
     #List global variables
     global xPlatform, yPlatform, platformSpeed, platformLength, platformHeight
     global score, timeLeft
-    global xBallSpeed, yBallSpeed, xBall, yBall
+    global xBallSpeed, yBallSpeed, xBall, yBall, ballRadius
 	
-    #Platform values
+    #Platform Values
     xPlatform = 500
-    platformLength = 80
+    platformLength = 150
     yPlatform = 600
     platformHeight = 10
+    
+    #Ball Values
+    xBall = 500
+    yBall = 580
+    ballRadius = 10
 
 
 def drawObjects():
     global xPlatform, yPlatform, platformHeight, platformLength
+    #global xBallSpeed, yBallSpeed, xBall, yBall, ballRadius
+    
     screen.create_rectangle(xPlatform - platformLength, yPlatform - platformHeight, xPlatform + platformLength, yPlatform + platformHeight, fill = "green")
+    screen.create_oval(xBall - ballRadius, yBall - ballRadius, xBall + ballRadius, yBall + ballRadius, fill = "yellow")
 
 def drawStats():
 	global livesDisplay, scoreDisplay
