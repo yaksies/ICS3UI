@@ -15,6 +15,7 @@ def setInitialValues():
     global xBallSpeed, yBallSpeed, xBall, yBall
 	
     #Give the global variables starting values
+    #xPlatform = 
 	
 
 
@@ -83,6 +84,10 @@ root.after( 500, runGame) #makes the program call the runGame() procedure 500 mi
 screen.bind("<Button-1>", mouseClickHandler) #makes the program call the procedure mouseClickHandler() every time the user clicks the left mouse button (what Python called "Button-1")
 
 screen.bind("<ButtonRelease-1>", mouseReleaseHandler) #makes the program call the procedure mouseReleaseHandler() every time the user lets go of the mouse
+
+screen.bind("<Key>", keyDownHandler) # Makes the program call the keyDownHandle() function whenever the user presses a key
+
+screen.bind("<KeyRelease>", keyUpHandler) # Calls the function keyUpHandler() when the user releases a key
 
 screen.pack() #sets up the drawing screen (same as in any Tkinter program)
 
