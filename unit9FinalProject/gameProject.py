@@ -4,26 +4,26 @@ from random import *
 
 root = Tk()
 
-screen = Canvas(root, width=800, height=600, background="black")
+screen = Canvas(root, width=1000, height=700, background="black")
 
 #THE JOB OF THIS PROCEDURE IS TO CREATE ALL THE VARIABLES THE GAME WILL NEED
 #AND GIVE THEM STARTING VALUES
 def setInitialValues():
     #List global variables
-    global xPLatform, yPLatform, platformSpeed, platformLength
+    global xPlatform, yPlatform, platformSpeed, platformLength, platformHeight
     global score, timeLeft
     global xBallSpeed, yBallSpeed, xBall, yBall
 	
     #Platform values
-    xPlatform = 400
-    platformLength = 
-	
-
+    xPlatform = 500
+    platformLength = 80
+    yPlatform = 600
+    platformHeight = 10
 
 
 def drawObjects():
-    global rockethead, rocketbody
-	
+    global xPlatform, yPlatform, platformHeight, platformLength
+    screen.create_rectangle(xPlatform - platformLength, yPlatform - platformHeight, xPlatform + platformLength, yPlatform + platformHeight, fill = "green")
 
 def drawStats():
 	global livesDisplay, scoreDisplay
@@ -67,7 +67,7 @@ def runGame():
     while True: #or some other condition 
         drawObjects()
         drawStats()
-        updateObjects() 
+        #updateObjects() 
         
         screen.update()
         sleep(0.03)
@@ -76,7 +76,6 @@ def runGame():
     #WHEN THE WHILE-LOOP ABOVE STOPS, THE GAME ENDS
     gameOverMessage()
     askToRestart()
-
 
 #THESE 5 COMMANDS WILL BE NEW TO YOU. ALL GAMES MUST INCLUDE THEM.
 
