@@ -10,12 +10,13 @@ screen = Canvas(root, width=800, height=600, background="black")
 #AND GIVE THEM STARTING VALUES
 def setInitialValues():
     #List global variables
-    global xPLatform, yPLatform, platformSpeed
+    global xPLatform, yPLatform, platformSpeed, platformLength
     global score, timeLeft
     global xBallSpeed, yBallSpeed, xBall, yBall
 	
-    #Give the global variables starting values
-    #xPlatform = 
+    #Platform values
+    xPlatform = 400
+    platformLength = 
 	
 
 
