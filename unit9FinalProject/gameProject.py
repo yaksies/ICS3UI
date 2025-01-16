@@ -34,6 +34,9 @@ def startScreen():
     screen.create_rectangle(600, 500, 900, 600, fill = "yellow")
     screen.create_text(750, 550, text = "Hard", font = "Impact 40", fill = "black")
 
+    # How to Play
+    screen.create_rectangle(950, 10, 990, 50, fill = "yellow")
+
 
 #THE JOB OF THIS PROCEDURE IS TO CREATE ALL THE VARIABLES THE GAME WILL NEED
 #AND GIVE THEM STARTING VALUES
