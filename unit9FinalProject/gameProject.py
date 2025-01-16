@@ -38,94 +38,125 @@ def startScreen():
     screen.create_rectangle(10, 650, 50, 690, fill = "yellow")
     screen.create_text(30, 670, text = "?", font = "Impact 20", fill = "black")
 
+    root.bind("<Button-1>", startScreenClick)
+
 def delStartScreen():
     screen.delete("all")
      
 
 def startScreenClick(event):
-    global platformLength, xBallSpeed
+    global platformLength, xBallSpeed, platformSpeed
     
     xMouse = event.x
     yMouse = event.y
 
+    # -- DIFFICULTY BUTTONS -- #
+
+    # Easy
     if xMouse > 600 and xMouse < 900 and yMouse > 200 and yMouse < 300:
         platformLength = 150
+        platformSpeed = 40
         xBallSpeed = []
         for i in range(0, 1000):
             xBallSpeed.append(uniform(10, 30))
+        delStartScreen()
+        runGame()
+
+    # Medium
     elif xMouse > 600 and xMouse < 900 and yMouse > 350 and yMouse < 450:
         platformLength = 120
+        platformSpeed = 35
         xBallSpeed = []
         for i in range(0, 1000):
             xBallSpeed.append(uniform(20, 40))
+        delStartScreen()
+        runGame()
+
+    # Hard
     elif xMouse > 600 and xMouse < 900 and yMouse > 500 and yMouse < 600:
         platformLength = 90
+        platformSpeed = 30
         xBallSpeed = []
         for i in range(0, 1000):
             xBallSpeed.append(uniform(30, 50))
+        delStartScreen()
+        runGame()
     elif xMouse > 10 and xMouse < 50 and yMouse > 650 and yMouse < 690:
-        print("How to Play")
+        delStartScreen()
+
+        for i in range(0, 1000):
+            xStar = randint(0, 1000)
+            yStar = randint(0, 700)
+            screen.create_oval(xStar - 1, yStar - 1, xStar + 1, yStar + 1, fill = "white")
+
+        screen.create_rectangle(100, 50, 900, 150, fill = "yellow")
+        screen.create_text(500, 100, text = "Space Ball Instructions", font = "Impact 50", fill = "black")
+
+        screen.create_rectangle(100, 200, 900, 500, fill = "yellow")
+        screen.create_text(500, 350, text = "The goal of the game is to keep the ball from falling off the platform. \nYou can move the platform left and right by using the right and left arrow keys.\nEasy is slow, Medium is medium, and Hard is fast. \nGood luck!", font = "Impact 20", fill = "black")
+
+        screen.create_rectangle(10, 650, 50, 690, fill = "yellow")
+        screen.create_text(30, 670, text = "<-", font = "Impact 20", fill = "black")
+        
+        root.bind("<Button-1>", helpClick)
+
+def helpClick(event):
+    xMouse = event.x
+    yMouse = event.y
+
+    if xMouse > 10 and xMouse < 50 and yMouse > 650 and yMouse < 690:
+        screen.delete("all")
+        startScreen()
 
 
 #THE JOB OF THIS PROCEDURE IS TO CREATE ALL THE VARIABLES THE GAME WILL NEED
 #AND GIVE THEM STARTING VALUES
 def setInitialValues():
     #List global variables
-    global xPlatform, yPlatform, platformSpeed, platformHeight
+    global xPlatform, yPlatform, platformHeight
     global score
-    global xBallSpeed, yBallSpeed, xBall, yBall, ballRadius
+    global yBallSpeed, xBall, yBall, ballRadius
 	
     #Platform Values
     xPlatform = 500
     yPlatform = 600
     platformHeight = 10
-    platformSpeed = 0
     
     #Ball Values
     xBall = 500
     yBall = 580
     ballRadius = 10
-    xBallSpeed = []
     yBallSpeed = 0
-
-    for i in range(0, 100):
-        xBallSpeed.append(uniform(20, 40))
 
     #Game Values
     score = 0
 
-
-def drawObjects():
-    global xPlatform, yPlatform, platformHeight, platformLength
-    global xBallSpeed, yBallSpeed, xBall, yBall, ballRadius
-
+    #Drawing the background
     for i in range(0, 1000):
         xStar = randint(0, 1000)
         yStar = randint(0, 700)
         screen.create_oval(xStar - 1, yStar - 1, xStar + 1, yStar + 1, fill = "white")
 
+
+def drawObjects():
+    global xPlatform, yPlatform, platformHeight, platformLength, platform
+    global xBallSpeed, yBallSpeed, xBall, yBall, ballRadius, ball
     
     ball = screen.create_rectangle(xPlatform - platformLength, yPlatform - platformHeight, xPlatform + platformLength, yPlatform + platformHeight, fill = "green")
     platform = screen.create_oval(xBall - ballRadius, yBall - ballRadius, xBall + ballRadius, yBall + ballRadius, fill = "yellow")
 
 def drawStats():
 	global livesDisplay, scoreDisplay
-	
-	
-#THIS PROCEDURE GETS CALLED EVERY TIME THE USER CLICKS THE MOUSE...AND ONLY WHEN THEY CLICK THE MOUSE
-def mouseClickHandler( event ):
-    global xMouse, yMouse
-    
- 
-#THIS PROCEDURE GETS CALLED EVERY TIME THE USER LETS GO OF THE MOUSE.
-#THIS IS WHAT MAKES THE ROCKET FLAME DISAPPEAR AFTER EACH MOUSE CLICK
-def mouseReleaseHandler( event ):
-	global xMouse, yMouse
 
    
 #THIS PROCEDURE GETS CALLED EVERY TIME THE USER PRESSES A KEY
 def keyDownHandler( event ):
-    pass
+    global xPlatform, platformSpeed
+
+    if event.keysym == "Right":
+        xPlatform = xPlatform + platformSpeed
+    elif event.keysym == "Left":
+        xPlatform = xPlatform - platformSpeed
 
 #THIS PROCEDURE GETS CALLED EVERY TIME THE USER LETS GO OF A KEY
 def keyUpHandler( event ):
@@ -134,12 +165,17 @@ def keyUpHandler( event ):
 
 #UPDATES THE POSITIONS AND SPEEDS OF ALL OBJECTS IN THE CURRENT FRAME OF THE ANIMATION
 def updateObjectPositions():
-	global xBall, yBall, xBallSpeed, yBallSpeed
+    global xBall, yBall, xBallSpeed, yBallSpeed, ballRadius, ball
+    global xPlatform, yPlatform, platformSpeed, platformHeight
+
+    ball = screen.create_rectangle(xPlatform - platformLength, yPlatform - platformHeight, xPlatform + platformLength, yPlatform + platformHeight, fill = "green")
+    platform = screen.create_oval(xBall - ballRadius, yBall - ballRadius, xBall + ballRadius, yBall + ballRadius, fill = "yellow")
 	  
 
 
 #THIS IS THE MAIN PROCEDURE THAT RUNS THE GAME. IT GETS CALLED ONCE WHEN THE PROGRAM STARTS  
 def runGame():
+    global ball, platform
 
     #Creates all the variables the program will need, and gives them starting values
     setInitialValues()
@@ -151,7 +187,7 @@ def runGame():
         #updateObjects() 
         
         screen.update()
-        sleep(0.03)
+        sleep(0.001)
         screen.delete( ball, platform ) #Or only the characters
 
     #WHEN THE WHILE-LOOP ABOVE STOPS, THE GAME ENDS
@@ -161,10 +197,6 @@ def runGame():
 #THESE 5 COMMANDS WILL BE NEW TO YOU. ALL GAMES MUST INCLUDE THEM.
 
 root.after( 500, startScreen) #makes the program call the runGame() procedure 500 milliseconds after the program starts
-
-screen.bind("<Button-1>", mouseClickHandler) #makes the program call the procedure mouseClickHandler() every time the user clicks the left mouse button (what Python called "Button-1")
-
-screen.bind("<ButtonRelease-1>", mouseReleaseHandler) #makes the program call the procedure mouseReleaseHandler() every time the user lets go of the mouse
 
 screen.bind("<Key>", keyDownHandler) # Makes the program call the keyDownHandle() function whenever the user presses a key
 
