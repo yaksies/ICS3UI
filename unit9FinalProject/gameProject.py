@@ -35,20 +35,48 @@ def startScreen():
     screen.create_text(750, 550, text = "Hard", font = "Impact 40", fill = "black")
 
     # How to Play
-    screen.create_rectangle(950, 10, 990, 50, fill = "yellow")
+    screen.create_rectangle(10, 650, 50, 690, fill = "yellow")
+    screen.create_text(30, 670, text = "?", font = "Impact 20", fill = "black")
+
+def delStartScreen():
+    screen.delete("all")
+     
+
+def startScreenClick(event):
+    global platformLength, xBallSpeed
+    
+    xMouse = event.x
+    yMouse = event.y
+
+    if xMouse > 600 and xMouse < 900 and yMouse > 200 and yMouse < 300:
+        platformLength = 150
+        xBallSpeed = []
+        for i in range(0, 1000):
+            xBallSpeed.append(uniform(10, 30))
+    elif xMouse > 600 and xMouse < 900 and yMouse > 350 and yMouse < 450:
+        platformLength = 120
+        xBallSpeed = []
+        for i in range(0, 1000):
+            xBallSpeed.append(uniform(20, 40))
+    elif xMouse > 600 and xMouse < 900 and yMouse > 500 and yMouse < 600:
+        platformLength = 90
+        xBallSpeed = []
+        for i in range(0, 1000):
+            xBallSpeed.append(uniform(30, 50))
+    elif xMouse > 10 and xMouse < 50 and yMouse > 650 and yMouse < 690:
+        print("How to Play")
 
 
 #THE JOB OF THIS PROCEDURE IS TO CREATE ALL THE VARIABLES THE GAME WILL NEED
 #AND GIVE THEM STARTING VALUES
 def setInitialValues():
     #List global variables
-    global xPlatform, yPlatform, platformSpeed, platformLength, platformHeight
+    global xPlatform, yPlatform, platformSpeed, platformHeight
     global score
     global xBallSpeed, yBallSpeed, xBall, yBall, ballRadius
 	
     #Platform Values
     xPlatform = 500
-    platformLength = 150
     yPlatform = 600
     platformHeight = 10
     platformSpeed = 0
