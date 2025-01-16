@@ -159,8 +159,8 @@ def keyDownHandler( event ):
         xPlatform = xPlatform - platformSpeed
 
 #THIS PROCEDURE GETS CALLED EVERY TIME THE USER LETS GO OF A KEY
-def keyUpHandler( event ):
-    pass
+# def keyUpHandler( event ):
+#     pass
 
 
 #UPDATES THE POSITIONS AND SPEEDS OF ALL OBJECTS IN THE CURRENT FRAME OF THE ANIMATION
@@ -200,7 +200,7 @@ root.after( 500, startScreen) #makes the program call the runGame() procedure 50
 
 screen.bind("<Key>", keyDownHandler) # Makes the program call the keyDownHandle() function whenever the user presses a key
 
-screen.bind("<KeyRelease>", keyUpHandler) # Calls the function keyUpHandler() when the user releases a key
+#screen.bind("<KeyRelease>", keyUpHandler) # Calls the function keyUpHandler() when the user releases a key
 
 screen.pack() #sets up the drawing screen (same as in any Tkinter program)
 
