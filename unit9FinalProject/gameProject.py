@@ -81,6 +81,7 @@ def startScreenClick(event):
             xBallSpeed.append(uniform(30, 50))
         delStartScreen()
         runGame()
+        
     elif xMouse > 10 and xMouse < 50 and yMouse > 650 and yMouse < 690:
         delStartScreen()
 
@@ -89,11 +90,13 @@ def startScreenClick(event):
             yStar = randint(0, 700)
             screen.create_oval(xStar - 1, yStar - 1, xStar + 1, yStar + 1, fill = "white")
 
-        screen.create_rectangle(100, 50, 900, 150, fill = "yellow")
+        screen.create_rectangle(50, 50, 950, 150, fill = "yellow")
         screen.create_text(500, 100, text = "Space Ball Instructions", font = "Impact 50", fill = "black")
 
-        screen.create_rectangle(100, 200, 900, 500, fill = "yellow")
-        screen.create_text(500, 350, text = "The goal of the game is to keep the ball from falling off the platform. \nYou can move the platform left and right by using the right and left arrow keys.\nEasy is slow, Medium is medium, and Hard is fast. \nGood luck!", font = "Impact 20", fill = "black")
+        screen.create_rectangle(50, 200, 950, 500, fill = "yellow")
+        screen.create_text(500, 250, text = "The goal of the game is to keep the ball from falling off the platform.", font = "Impact 15", fill = "black")
+        screen.create_text(500, 300, text = "Use the left and right arrow keys to keep the ball on the platform.", font = "Impact 15", fill = "black")
+        screen.create_text(500, 400, text = "Good Luck!", font = "Impact 20", fill = "black")
 
         screen.create_rectangle(10, 650, 50, 690, fill = "yellow")
         screen.create_text(30, 670, text = "<-", font = "Impact 20", fill = "black")
@@ -176,6 +179,8 @@ def updateObjectPositions():
 #THIS IS THE MAIN PROCEDURE THAT RUNS THE GAME. IT GETS CALLED ONCE WHEN THE PROGRAM STARTS  
 def runGame():
     global ball, platform
+    
+    root.bind("<Button-1>", "")
 
     #Creates all the variables the program will need, and gives them starting values
     setInitialValues()
