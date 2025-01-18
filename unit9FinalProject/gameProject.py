@@ -262,6 +262,7 @@ def runGame():
 root.after( 500, startScreen) #makes the program call the runGame() procedure 500 milliseconds after the program starts
 
 screen.bind("<KeyPress>", keyDownHandler) # Makes the program call the keyDownHandler() function whenever the user presses a key
+
 screen.bind("<KeyRelease>", keyUpHandler) # Calls the function keyUpHandler() when the user releases a key
 
 screen.pack() #sets up the drawing screen (same as in any Tkinter program)
