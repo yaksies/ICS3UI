@@ -55,33 +55,27 @@ def startScreenClick(event):
     # Easy
     if xMouse > 600 and xMouse < 900 and yMouse > 200 and yMouse < 300:
         platformLength = 150
-        platformSpeed = 40
+        platformSpeed = 20
         difficulty = "Easy"
-        xBallSpeed = []
-        for i in range(0, 1000):
-            xBallSpeed.append(uniform(10, 30))
+        xBallSpeed = 10
         delStartScreen()
         runGame()
 
     # Medium
     elif xMouse > 600 and xMouse < 900 and yMouse > 350 and yMouse < 450:
         platformLength = 120
-        platformSpeed = 35
+        platformSpeed = 15
         difficulty =  "Medium"
-        xBallSpeed = []
-        for i in range(0, 1000):
-            xBallSpeed.append(uniform(20, 40))
+        xBallSpeed = 13
         delStartScreen()
         runGame()
 
     # Hard
     elif xMouse > 600 and xMouse < 900 and yMouse > 500 and yMouse < 600:
         platformLength = 90
-        platformSpeed = 30
+        platformSpeed = 10
         difficulty = "Hard"
-        xBallSpeed = []
-        for i in range(0, 1000):
-            xBallSpeed.append(uniform(30, 50))
+        xBallSpeed = 16
         delStartScreen()
         runGame()
 
@@ -122,8 +116,8 @@ def helpClick(event):
 def setInitialValues():
     #List global variables
     global xPlatform, yPlatform, platformHeight
-    global score, lost
-    global yBallSpeed, xBall, yBall, ballRadius, gravity
+    global score, lost, won
+    global yBallSpeed, xBall, yBall, ballRadius, gravity, ballMovement, upSpeedAfterImpact, xStart, yStart
 	
     #Platform Values
     xPlatform = 500
@@ -132,14 +126,18 @@ def setInitialValues():
     
     #Ball Values
     xBall = 500
-    yBall = 580
+    yBall = 500
     ballRadius = 10
-    yBallSpeed = 0
-    gravity = 0.6
+    yBallSpeed = -25  # Increase the initial vertical speed for a higher parabola
+    gravity = 1
+    ballMovement = []
+    for i in range(1000):
+        ballMovement.append(randint(0, 1))
 
     #Game Values
     score = 0
     lost = False
+    won = False
 
     #Drawing the background
     for i in range(0, 1000):
@@ -155,46 +153,96 @@ def drawObjects():
     ball = screen.create_rectangle(xPlatform - platformLength, yPlatform - platformHeight, xPlatform + platformLength, yPlatform + platformHeight, fill = "green")
     platform = screen.create_oval(xBall - ballRadius, yBall - ballRadius, xBall + ballRadius, yBall + ballRadius, fill = "yellow")
 
+score = 0
+
 def drawStats():
-	global score
+    global score, scoreDisp
+    scoreDisp = screen.create_text(50, 20, text=f"Score: {score}", font="Impact 20", fill="white")
 
    
+# Flags to track key states
+move_left = False
+move_right = False
+
 #THIS PROCEDURE GETS CALLED EVERY TIME THE USER PRESSES A KEY
 def keyDownHandler( event ):
-    global xPlatform, platformSpeed
+    global move_left, move_right
 
     if event.keysym == "Right":
-        xPlatform = xPlatform + platformSpeed
+        move_right = True
     elif event.keysym == "Left":
-        xPlatform = xPlatform - platformSpeed
+        move_left = True
 
 #THIS PROCEDURE GETS CALLED EVERY TIME THE USER LETS GO OF A KEY
-# def keyUpHandler( event ):
-#     pass
+def keyUpHandler( event ):
+    global move_left, move_right
 
-t = 0
+    if event.keysym == "Right":
+        move_right = False
+    elif event.keysym == "Left":
+        move_left = False
 
 #UPDATES THE POSITIONS AND SPEEDS OF ALL OBJECTS IN THE CURRENT FRAME OF THE ANIMATION
 def updateObjects():
-    global xBall, yBall, xBallSpeed, yBallSpeed, ballRadius, ball, t, gravity, score
+    global xBall, yBall, xBallSpeed, yBallSpeed, ballRadius, ball, timesRun, gravity
+    global score
     global xPlatform, yPlatform, platformSpeed, platformHeight, platform
 
+    # Move platform based on key states
+    if move_right:
+        xPlatform += platformSpeed
+    if move_left:
+        xPlatform -= platformSpeed
+
     # -- Ball -- #
+    moveBall()
+
+    platform = screen.create_rectangle(xPlatform - platformLength, yPlatform - platformHeight, xPlatform + platformLength, yPlatform + platformHeight, fill = "green")
+    ball = screen.create_oval(xBall - ballRadius, yBall - ballRadius, xBall + ballRadius, yBall + ballRadius, fill = "yellow")
     
+    # screen.update()
+    # sleep(0.01)
+    # screen.delete(ball, platform)
 
+def moveBall():
+    global xBall, yBall, xBallSpeed, yBallSpeed, timesRun, yPlatform, gravity
+    global timesRun, ballRadius, platformLength, lost, won, score
 
-    ball = screen.create_rectangle(xPlatform - platformLength, yPlatform - platformHeight, xPlatform + platformLength, yPlatform + platformHeight, fill = "green")
-    platform = screen.create_oval(xBall - ballRadius, yBall - ballRadius, xBall + ballRadius, yBall + ballRadius, fill = "yellow")
+    # Update horizontal position
+    xBall += xBallSpeed
 
-    screen.update()
-    sleep(0.01)
-    screen.delete( ball, platform )
-	  
+    # Update vertical position with gravity
+    yBallSpeed += gravity
+    yBall += yBallSpeed
+
+    # Bounce off the platform
+    if yBall + ballRadius >= yPlatform - platformHeight and xBall >= xPlatform - platformLength and xBall <= xPlatform + platformLength:
+        yBallSpeed = -25  # Reset the vertical speed to its initial value
+        platformLength -= 3  # Decrease platform length
+        score += 1
+
+        # Add a small random variation to xBallSpeed
+        xBallSpeed += randint(-2, 2)
+
+        # Check if the platform length is below the threshold
+        if score > 20:
+            won = True
+
+    # Bounce off the screen edges
+    if xBall - ballRadius <= 0 or xBall + ballRadius >= 1000:
+        xBallSpeed = -xBallSpeed
+
+    # Check if the ball falls off the screen
+    if yBall - ballRadius > 700:
+        lost = True
+
+# def gameOver():
+#     global runGame
 
 
 #THIS IS THE MAIN PROCEDURE THAT RUNS THE GAME. IT GETS CALLED ONCE THE USER CHOOSES A DIFFICULTY  
 def runGame():
-    global ball, platform
+    global ball, platform, scoreDisp
     
     root.bind("<Button-1>", "")
 
@@ -206,13 +254,13 @@ def runGame():
 
     screen.delete( ball, platform )
     #Keeps the game running for as long as the player has not lost
-    while lost != True:
+    while lost != True or won != True:
         drawStats()
-        updateObjects() 
-        
-        # screen.update()
-        # sleep(0.01)
-        # screen.delete( ball, platform )
+        updateObjects()
+
+        screen.update()
+        sleep(0.01)
+        screen.delete( ball, platform, scoreDisp )
 
     #WHEN THE WHILE-LOOP ABOVE STOPS, THE GAME ENDS
     gameOver()
@@ -220,9 +268,8 @@ def runGame():
 
 root.after( 500, startScreen) #makes the program call the runGame() procedure 500 milliseconds after the program starts
 
-screen.bind("<Key>", keyDownHandler) # Makes the program call the keyDownHandle() function whenever the user presses a key
-
-#screen.bind("<KeyRelease>", keyUpHandler) # Calls the function keyUpHandler() when the user releases a key
+screen.bind("<KeyPress>", keyDownHandler) # Makes the program call the keyDownHandler() function whenever the user presses a key
+screen.bind("<KeyRelease>", keyUpHandler) # Calls the function keyUpHandler() when the user releases a key
 
 screen.pack() #sets up the drawing screen (same as in any Tkinter program)
 
