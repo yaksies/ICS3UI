@@ -110,12 +110,11 @@ def helpClick(event):
         screen.delete("all")
         startScreen()
 
+# ********** INITIALIZING VALUES ********** #
 
-#THE JOB OF THIS PROCEDURE IS TO CREATE ALL THE VARIABLES THE GAME WILL NEED
-#AND GIVE THEM STARTING VALUES
 def setInitialValues():
     #List global variables
-    global xPlatform, yPlatform, platformHeight
+    global xPlatform, yPlatform, platformHeight, moveLeft, moveRight
     global score, lost, won
     global yBallSpeed, xBall, yBall, ballRadius, gravity, ballMovement, upSpeedAfterImpact, xStart, yStart
 	
@@ -123,6 +122,8 @@ def setInitialValues():
     xPlatform = 500
     yPlatform = 600
     platformHeight = 10
+    moveLeft = False
+    moveRight = False
     
     #Ball Values
     xBall = 500
@@ -145,6 +146,7 @@ def setInitialValues():
         yStar = randint(0, 700)
         screen.create_oval(xStar - 1, yStar - 1, xStar + 1, yStar + 1, fill = "white")
 
+# ********** DRAWING AND UPDATING OBJECTS (including stats) ********** #
 
 def drawObjects():
     global xPlatform, yPlatform, platformHeight, platformLength, platform
@@ -153,60 +155,29 @@ def drawObjects():
     ball = screen.create_rectangle(xPlatform - platformLength, yPlatform - platformHeight, xPlatform + platformLength, yPlatform + platformHeight, fill = "green")
     platform = screen.create_oval(xBall - ballRadius, yBall - ballRadius, xBall + ballRadius, yBall + ballRadius, fill = "yellow")
 
-score = 0
-
 def drawStats():
     global score, scoreDisp
     scoreDisp = screen.create_text(50, 20, text=f"Score: {score}", font="Impact 20", fill="white")
 
-   
-# Flags to track key states
-move_left = False
-move_right = False
-
-#THIS PROCEDURE GETS CALLED EVERY TIME THE USER PRESSES A KEY
-def keyDownHandler( event ):
-    global move_left, move_right
-
-    if event.keysym == "Right":
-        move_right = True
-    elif event.keysym == "Left":
-        move_left = True
-
-#THIS PROCEDURE GETS CALLED EVERY TIME THE USER LETS GO OF A KEY
-def keyUpHandler( event ):
-    global move_left, move_right
-
-    if event.keysym == "Right":
-        move_right = False
-    elif event.keysym == "Left":
-        move_left = False
-
-#UPDATES THE POSITIONS AND SPEEDS OF ALL OBJECTS IN THE CURRENT FRAME OF THE ANIMATION
 def updateObjects():
     global xBall, yBall, xBallSpeed, yBallSpeed, ballRadius, ball, timesRun, gravity
     global score
     global xPlatform, yPlatform, platformSpeed, platformHeight, platform
 
-    # Move platform based on key states
-    if move_right:
+    if moveRight:
         xPlatform += platformSpeed
-    if move_left:
+    if moveLeft:
         xPlatform -= platformSpeed
 
-    # -- Ball -- #
     moveBall()
 
     platform = screen.create_rectangle(xPlatform - platformLength, yPlatform - platformHeight, xPlatform + platformLength, yPlatform + platformHeight, fill = "green")
     ball = screen.create_oval(xBall - ballRadius, yBall - ballRadius, xBall + ballRadius, yBall + ballRadius, fill = "yellow")
-    
-    # screen.update()
-    # sleep(0.01)
-    # screen.delete(ball, platform)
+
 
 def moveBall():
-    global xBall, yBall, xBallSpeed, yBallSpeed, timesRun, yPlatform, gravity
-    global timesRun, ballRadius, platformLength, lost, won, score
+    global xBall, yBall, xBallSpeed, yBallSpeed, yPlatform, gravity
+    global ballRadius, platformLength, lost, won, score
 
     # Update horizontal position
     xBall += xBallSpeed
@@ -216,16 +187,16 @@ def moveBall():
     yBall += yBallSpeed
 
     # Bounce off the platform
-    if yBall + ballRadius >= yPlatform - platformHeight and xBall >= xPlatform - platformLength and xBall <= xPlatform + platformLength:
+    if yBall + ballRadius >= yPlatform and xBall >= xPlatform - platformLength and xBall <= xPlatform + platformLength:
         yBallSpeed = -25  # Reset the vertical speed to its initial value
         platformLength -= 3  # Decrease platform length
         score += 1
 
         # Add a small random variation to xBallSpeed
-        xBallSpeed += randint(-2, 2)
+        xBallSpeed += randint(-2, 3)
 
         # Check if the platform length is below the threshold
-        if score > 20:
+        if score == 30:
             won = True
 
     # Bounce off the screen edges
@@ -236,11 +207,33 @@ def moveBall():
     if yBall - ballRadius > 700:
         lost = True
 
+# ********** KEY PROCEDURES ********** #
+
+# This procedure gets called every time the user presses a key
+def keyDownHandler(event):
+    global moveLeft, moveRight
+
+    if event.keysym == "Right":
+        moveRight = True
+    elif event.keysym == "Left":
+        moveLeft = True
+
+# This procedure gets called every time the user lets go of a key
+def keyUpHandler(event):
+    global moveLeft, moveRight
+
+    if event.keysym == "Right":
+        moveRight = False
+    elif event.keysym == "Left":
+        moveLeft = False
+
+# ********** GAME PROCEDURES ********** #
+
 # def gameOver():
 #     global runGame
 
 
-#THIS IS THE MAIN PROCEDURE THAT RUNS THE GAME. IT GETS CALLED ONCE THE USER CHOOSES A DIFFICULTY  
+# This is the main procedure that runs the game. It gets called once the user chooses a difficulty  
 def runGame():
     global ball, platform, scoreDisp
     
@@ -253,8 +246,8 @@ def runGame():
 
 
     screen.delete( ball, platform )
-    #Keeps the game running for as long as the player has not lost
-    while lost != True or won != True:
+    #Keeps the game running for as long as the player has not lost or won
+    while not lost and not won:
         drawStats()
         updateObjects()
 
