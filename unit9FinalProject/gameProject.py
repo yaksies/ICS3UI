@@ -64,7 +64,7 @@ def startScreenClick(event):
     # Medium
     elif xMouse > 600 and xMouse < 900 and yMouse > 350 and yMouse < 450:
         platformLength = 120
-        platformSpeed = 15
+        platformSpeed = 17
         difficulty =  "Medium"
         xBallSpeed = 13
         delStartScreen()
@@ -73,7 +73,7 @@ def startScreenClick(event):
     # Hard
     elif xMouse > 600 and xMouse < 900 and yMouse > 500 and yMouse < 600:
         platformLength = 90
-        platformSpeed = 10
+        platformSpeed = 14
         difficulty = "Hard"
         xBallSpeed = 16
         delStartScreen()
