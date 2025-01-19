@@ -82,7 +82,7 @@ def startScreenClick(event):
     # -- HOW TO PLAY BUTTON -- #
         
     elif xMouse > 10 and xMouse < 50 and yMouse > 650 and yMouse < 690:
-        delStartScreen()
+        delScreen()
 
         for i in range(0, 1000):
             xStar = randint(0, 1000)
@@ -95,7 +95,9 @@ def startScreenClick(event):
         screen.create_rectangle(50, 200, 950, 500, fill = "yellow")
         screen.create_text(500, 250, text = "The goal of the game is to keep the ball from falling off the platform.", font = "Impact 20", fill = "black")
         screen.create_text(500, 300, text = "Use the left and right arrow keys to keep the ball on the platform.", font = "Impact 20", fill = "black")
-        screen.create_text(500, 400, text = "Good Luck!", font = "Impact 30", fill = "black")
+        screen.create_text(500, 350, text = "The platform will get shorter as you progress through the game.", font = "Impact 20", fill = "black")
+        screen.create_text(500, 400, text = "Reach a score of 30 to win the game!.", font = "Impact 20", fill = "black")
+        screen.create_text(500, 470, text = "Good Luck!", font = "Impact 30", fill = "black")
 
         screen.create_rectangle(10, 650, 50, 690, fill = "yellow")
         screen.create_text(30, 670, text = "<-", font = "Impact 20", fill = "black")
@@ -116,7 +118,7 @@ def setInitialValues():
     #List global variables
     global xPlatform, yPlatform, platformHeight, moveLeft, moveRight
     global score, lost, won
-    global yBallSpeed, xBall, yBall, ballRadius, gravity, ballMovement, upSpeedAfterImpact, xStart, yStart
+    global yBallSpeed, xBall, yBall, ballRadius, gravity, ballMovement
 	
     #Platform Values
     xPlatform = 500
@@ -156,8 +158,10 @@ def drawObjects():
     platform = screen.create_oval(xBall - ballRadius, yBall - ballRadius, xBall + ballRadius, yBall + ballRadius, fill = "yellow")
 
 def drawStats():
-    global score, scoreDisp
-    scoreDisp = screen.create_text(50, 20, text=f"Score: {score}", font="Impact 20", fill="white")
+    global score, scoreDisp, scoreBox
+
+    scoreBox = screen.create_rectangle(10, 10, 110, 50, fill="yellow")
+    scoreDisp = screen.create_text(60, 30, text=f"Score: {score}", font="Impact 20", fill="black")
 
 def updateObjects():
     global xBall, yBall, xBallSpeed, yBallSpeed, ballRadius, ball, timesRun, gravity
@@ -232,13 +236,40 @@ def keyUpHandler(event):
 def gameOver():
     global runGame, delScreen, won, lost, difficulty
 
+    delScreen()
+
     if won:
         if difficulty == "Easy":
-            screen.create_text(500, 350, text="Congratulations! You won the game!", font="Impact 40", fill="white")
+            screen.create_text(500, 250, text="Congratulations! You won the game!", font="Impact 30", fill="white")
+
         elif difficulty == "Medium":
-            screen.create_text(500, 350, text="Congratulations! You won the game!", font="Impact 40", fill="white")
+            screen.create_text(500, 250, text="Congratulations! You won the game!", font="Impact 30", fill="white")
+        
+        elif difficulty == "Hard":
+            screen.create_text(500, 250, text="Congratulations! You won the game!", font="Impact 30", fill="white")
+
+    elif lost:
+        if difficulty == "Easy":
+            screen.create_text(500, 250, text="Game Over! You lost!", font="Impact 30", fill="white")
+
+        elif difficulty == "Medium":
+            screen.create_text(500, 250, text="Game Over! You lost!", font="Impact 30", fill="white")
+
+        elif difficulty == "Hard":
+            screen.create_text(500, 250, text="You Can't Call Yourself", font="Impact 30", fill="white")
+            screen.create_text(500, 300, text="Good Until You Beat This!", font="Impact 30", fill="white")
+            screen.create_text(500, 400, text="Go Again!", font="Impact 40", fill="white")
     
 
+def gameOverClick(event):
+    global won, lost, difficulty
+
+    xMouse = event.x
+    yMouse = event.y
+
+    if xMouse > 100 and xMouse < 900 and yMouse > 300 and yMouse < 400:
+        delScreen()
+        startScreen()
 
 # This is the main procedure that runs the game. It gets called once the user chooses a difficulty  
 def runGame():
