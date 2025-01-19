@@ -40,7 +40,7 @@ def startScreen():
 
     root.bind("<Button-1>", startScreenClick)
 
-def delStartScreen():
+def delScreen():
     screen.delete("all")    
 
 def startScreenClick(event):
@@ -58,7 +58,7 @@ def startScreenClick(event):
         platformSpeed = 20
         difficulty = "Easy"
         xBallSpeed = 10
-        delStartScreen()
+        delScreen()
         runGame()
 
     # Medium
@@ -67,7 +67,7 @@ def startScreenClick(event):
         platformSpeed = 17
         difficulty =  "Medium"
         xBallSpeed = 13
-        delStartScreen()
+        delScreen()
         runGame()
 
     # Hard
@@ -76,7 +76,7 @@ def startScreenClick(event):
         platformSpeed = 14
         difficulty = "Hard"
         xBallSpeed = 16
-        delStartScreen()
+        delScreen()
         runGame()
 
     # -- HOW TO PLAY BUTTON -- #
@@ -107,7 +107,7 @@ def helpClick(event):
     yMouse = event.y
 
     if xMouse > 10 and xMouse < 50 and yMouse > 650 and yMouse < 690:
-        screen.delete("all")
+        delScreen()
         startScreen()
 
 # ********** INITIALIZING VALUES ********** #
@@ -229,8 +229,15 @@ def keyUpHandler(event):
 
 # ********** GAME PROCEDURES ********** #
 
-# def gameOver():
-#     global runGame
+def gameOver():
+    global runGame, delScreen, won, lost, difficulty
+
+    if won:
+        if difficulty == "Easy":
+            screen.create_text(500, 350, text="Congratulations! You won the game!", font="Impact 40", fill="white")
+        elif difficulty == "Medium":
+            screen.create_text(500, 350, text="Congratulations! You won the game!", font="Impact 40", fill="white")
+    
 
 
 # This is the main procedure that runs the game. It gets called once the user chooses a difficulty  
