@@ -240,25 +240,44 @@ def gameOver():
 
     if won:
         if difficulty == "Easy":
-            screen.create_text(500, 250, text="Congratulations! You won the game!", font="Impact 30", fill="white")
+            screen.create_text(500, 250, text="You Win!", font="Impact 30", fill="white")
+            screen.create_text(500, 300, text="Try Medium Next!", font="Impact 30", fill="white")
+            screen.create_rectangle(430, 400, 570, 440, fill="yellow")
+            screen.create_text(500, 420, text="Play Again", font="Impact 30", fill="black")
 
         elif difficulty == "Medium":
-            screen.create_text(500, 250, text="Congratulations! You won the game!", font="Impact 30", fill="white")
-        
+            screen.create_text(500, 250, text="You Win!", font="Impact 30", fill="white")
+            screen.create_text(500, 300, text="Try Hard Next!", font="Impact 30", fill="white")
+            screen.create_rectangle(430, 400, 570, 440, fill="yellow")
+            screen.create_text(500, 420, text="Play Again", font="Impact 30", fill="black")
+
         elif difficulty == "Hard":
-            screen.create_text(500, 250, text="Congratulations! You won the game!", font="Impact 30", fill="white")
+            screen.create_text(500, 250, text="You Win!", font="Impact 30", fill="white")
+            screen.create_text(500, 300, text="This Is Too Easy", font="Impact 30", fill="white")
+            screen.create_text(500, 350, text="For You!", font="Impact 30", fill="white")
+            screen.create_rectangle(430, 400, 570, 440, fill="yellow")
+            screen.create_text(500, 420, text="Play Again", font="Impact 30", fill="black")
+            
 
     elif lost:
         if difficulty == "Easy":
-            screen.create_text(500, 250, text="Game Over! You lost!", font="Impact 30", fill="white")
+            screen.create_text(500, 250, text="How Do You", font="Impact 30", fill="white")
+            screen.create_text(500, 300, text="Even Lose On Easy?", font="Impact 30", fill="white")
+            screen.create_rectangle(430, 400, 570, 440, fill="yellow")
+            screen.create_text(500, 420, text="Play Again", font="Impact 30", fill="black")
 
         elif difficulty == "Medium":
-            screen.create_text(500, 250, text="Game Over! You lost!", font="Impact 30", fill="white")
+            screen.create_text(500, 250, text="Come On,", font="Impact 30", fill="white")
+            screen.create_text(500, 300, text="Do Better!", font="Impact 30", fill="white")
+            screen.create_rectangle(430, 400, 570, 440, fill="yellow")
+            screen.create_text(500, 420, text="Play Again", font="Impact 30", fill="black")
 
         elif difficulty == "Hard":
             screen.create_text(500, 250, text="You Can't Call Yourself", font="Impact 30", fill="white")
             screen.create_text(500, 300, text="Good Until You Beat This!", font="Impact 30", fill="white")
             screen.create_text(500, 400, text="Go Again!", font="Impact 40", fill="white")
+            screen.create_rectangle(430, 400, 570, 440, fill="yellow")
+            screen.create_text(500, 420, text="Play Again", font="Impact 30", fill="black")
     
 
 def gameOverClick(event):
@@ -267,7 +286,7 @@ def gameOverClick(event):
     xMouse = event.x
     yMouse = event.y
 
-    if xMouse > 100 and xMouse < 900 and yMouse > 300 and yMouse < 400:
+    if xMouse >= 430 and xMouse <= 570 and yMouse >= 400 and yMouse <= 440:
         delScreen()
         startScreen()
 
@@ -295,7 +314,6 @@ def runGame():
 
     #WHEN THE WHILE-LOOP ABOVE STOPS, THE GAME ENDS
     gameOver()
-    askToRestart()
 
 root.after( 500, startScreen) #makes the program call the runGame() procedure 500 milliseconds after the program starts
 
